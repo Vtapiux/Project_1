@@ -21,7 +21,7 @@ public class User {
     @Column(name = "phone",length = 13)
     private String phone;
 
-    @Column(name = "created_ad",length = "8")
+    @Column(name = "created_ad",length = 8)
     private String createdAt;
 
     public User() {
