@@ -25,8 +25,9 @@ public class Loan {
     @Column(name = "status_reason")
     private String statusReason;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "loan_statuses")
     private Long loanStatus;
@@ -34,13 +35,14 @@ public class Loan {
     @Column(name = "status_reason")
     private Long managerUpdate;
 
-    public Loan(Long id, Long amountRequested, String loanType, String lastUpdate, String statusReason, Long userId, Long loanStatus, Long managerUpdate) {
+
+    public Loan(Long id, Long amountRequested, String loanType, String lastUpdate, String statusReason, User user, Long loanStatus, Long managerUpdate) {
         this.id = id;
         this.amountRequested = amountRequested;
         this.loanType = loanType;
         this.lastUpdate = lastUpdate;
         this.statusReason = statusReason;
-        this.userId = userId;
+        this.user = user;
         this.loanStatus = loanStatus;
         this.managerUpdate = managerUpdate;
     }
@@ -87,12 +89,12 @@ public class Loan {
         this.statusReason = statusReason;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getLoanStatus() {
