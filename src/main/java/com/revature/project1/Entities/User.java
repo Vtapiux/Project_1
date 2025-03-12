@@ -1,7 +1,6 @@
 package com.revature.project1.Entities;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 
 @Entity
@@ -23,6 +22,11 @@ public class User {
 
     @Column(name = "created_ad",length = 8)
     private String createdAt;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    private Address addressId;
+
 
     public User() {
     }
