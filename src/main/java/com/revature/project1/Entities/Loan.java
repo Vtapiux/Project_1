@@ -5,36 +5,33 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(
-        name = "Loan"
-)
-
 
 public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "loan_id")
     private Long id;
 
-    @Column
+    @Column(name = "amount_requested")
     private Long amountRequested;
 
-    @Column
+    @Column(name = "loan_type")
     private String loanType;
 
-    @Column
+    @Column(name = "loan_update")
     private String lastUpdate;
 
-    @Column
+    @Column(name = "status_reason")
     private String statusReason;
 
-    @Column
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column
+    @Column(name = "loan_statuses")
     private Long loanStatus;
 
-    @Column
+    @Column(name = "status_reason")
     private Long managerUpdate;
 
     public Loan(Long id, Long amountRequested, String loanType, String lastUpdate, String statusReason, Long userId, Long loanStatus, Long managerUpdate) {
