@@ -1,43 +1,31 @@
 package com.revature.project1.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "Loan_Statuses")
+@Table(name = "Loan_status")
 public class LoanStatuses {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "loan_statuses_id", nullable = false)
+    @Column(name = "loan_status_id", nullable = false)
     private Long id;
 
     @Column(name = "loan_status")
-    private String loanStatus;
+    @OneToMany(mappedBy = "loan_status", cascade = CascadeType.ALL)
+    private List<Loan> loanStatus = new ArrayList<>();
 
-    public LoanStatuses(){
+    public LoanStatuses() {
 
-    }
-
-    public LoanStatuses(Long id, String loanStatus){
-        this.id = id;
-        this.loanStatus = loanStatus;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public String getLoanStatus() {
-        return loanStatus;
-    }
+    public Long getId() {return id;}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public void setLoanStatus(String loanStatus) {
-        this.loanStatus = loanStatus;
-    }
+    public void setId(Long id) {this.id = id;}
+
+    public List<Loan> getLoanStatus() {return loanStatus;}
+
+    public void setLoanStatus(List<Loan> loanStatus) {this.loanStatus = loanStatus;}
 }
