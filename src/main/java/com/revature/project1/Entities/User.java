@@ -1,7 +1,10 @@
 package com.revature.project1.Entities;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class User {
@@ -27,9 +30,11 @@ public class User {
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address addressId;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Loan> Loans = new ArrayList<>();
 
-    public User() {
-    }
+
+    public User() {}
 
     public User(Long idUser, String lastName, String email, String phone, String createdAt) {
         this.idUser = idUser;
