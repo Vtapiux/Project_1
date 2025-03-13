@@ -17,7 +17,6 @@ public class LoanStatus {
     @Column(name = "loan_status_id", nullable = false)
     private Long id;
 
-    @Column(name = "loan_status")
     @OneToMany(mappedBy = "loan_status", cascade = CascadeType.ALL)
     private List<Loan> loanStatus = new ArrayList<>();
 
