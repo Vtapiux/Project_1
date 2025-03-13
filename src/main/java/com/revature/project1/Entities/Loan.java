@@ -15,10 +15,7 @@ public class Loan {
 
     @Column(name = "amount_requested")
     private Long amountRequested;
-
-
-
-
+    
     @Column(name = "loan_update")
     private String lastUpdate;
 
@@ -37,7 +34,6 @@ public class Loan {
     @Column(name = "status_reason")
     private Long managerUpdate;
 
-<<<<<<< HEAD
     @ManyToOne
     @JoinColumn(name = "loan_type_id")
     private LoanType loanType;
@@ -52,19 +48,6 @@ public class Loan {
     //     this.loanStatus = loanStatus;
     //     this.managerUpdate = managerUpdate;
     // }
-=======
-
-    public Loan(Long id, Long amountRequested, String loanType, String lastUpdate, String statusReason, User user, Long loanStatus, Long managerUpdate) {
-        this.id = id;
-        this.amountRequested = amountRequested;
-        this.loanType = loanType;
-        this.lastUpdate = lastUpdate;
-        this.statusReason = statusReason;
-        this.user = user;
-        this.loanStatus = loanStatus;
-        this.managerUpdate = managerUpdate;
-    }
->>>>>>> b6ae4c5a7292fd16a3fdfdda7b27646ede74fdb8
 
     public Loan(){}
 
