@@ -13,20 +13,13 @@ public class Address {
     public Address() {
     }
 
-    public Address(Long addressId, String country, String state, String city, String street, String streetNum, String zip) {
-        this.addressId = addressId;
-        this.country = country;
-        this.state = state;
-        this.city = city;
-        this.street = street;
-        this.streetNum = streetNum;
-        this.zip = zip;
-    }
-
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
     private Long addressId;
+
+    @OneToOne(mappedBy = "addressId")
+    private User user;
 
     @Column(name = "country")
     private String country;
