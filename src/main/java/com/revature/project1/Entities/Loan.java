@@ -2,8 +2,6 @@ package com.revature.project1.Entities;
 
 import jakarta.persistence.*;
 
-
-
 @Entity
 
 public class Loan {
@@ -15,14 +13,13 @@ public class Loan {
 
     @Column(name = "amount_requested")
     private Long amountRequested;
-    
+
     @Column(name = "loan_update")
     private String lastUpdate;
 
     @Column(name = "status_reason")
     private String statusReason;
 
-    @Column
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
