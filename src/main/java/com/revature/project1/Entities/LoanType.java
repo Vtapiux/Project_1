@@ -13,19 +13,18 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Loan_Type")
+@Table(name = "loan_types")
 public class LoanType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "loan_type_id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "loan_type_id", cascade = CascadeType.ALL)
-    private List<Loan> loanType = new ArrayList<>();
+    @Column (name = "loan_type")
+    private String loanType;
 
-
-    @OneToMany
-    private List<Loan> loans = new ArrayList<>();
+    @OneToMany(mappedBy = "loanType", cascade = CascadeType.ALL)
+    private List<Loan> loanTypes = new ArrayList<>();
 
     public LoanType(){
 
@@ -39,14 +38,14 @@ public class LoanType {
     public Long getId() {
         return id;
     }
-    public List<Loan> getLoanType() {
+    public String getLoanType() {
         return loanType;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
-    public void setLoanType(List<Loan> loanType) {
+    public void setLoanType(String loanType) {
         this.loanType = loanType;
     }
 }

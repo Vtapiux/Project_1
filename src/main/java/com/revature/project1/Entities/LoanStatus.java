@@ -17,8 +17,11 @@ public class LoanStatus {
     @Column(name = "loan_status_id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "loan_status", cascade = CascadeType.ALL)
-    private List<Loan> loanStatus = new ArrayList<>();
+    @Column(name = "loan_status")
+    private String loanStatus;
+
+    @OneToMany(mappedBy = "loanStatus", cascade = CascadeType.ALL)
+    private List<Loan> loanByStatus = new ArrayList<>();
 
     public LoanStatus(){
 
@@ -28,7 +31,15 @@ public class LoanStatus {
 
     public void setId(Long id) {this.id = id;}
 
-    public List<Loan> getLoanStatus() {return loanStatus;}
+    public String getLoanStatus() {return loanStatus;}
 
-    public void setLoanStatus(List<Loan> loanStatus) {this.loanStatus = loanStatus;}
+    public void setLoanStatus(String loanStatus) {this.loanStatus = loanStatus;}
+
+    public List<Loan> getLoanByStatus() {
+        return loanByStatus;
+    }
+
+    public void setLoanByStatus(List<Loan> loanByStatus) {
+        this.loanByStatus = loanByStatus;
+    }
 }

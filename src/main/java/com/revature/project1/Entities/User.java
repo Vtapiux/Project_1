@@ -7,12 +7,16 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table (name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long idUser;
+
+    @Column(name = "first_name")
+    private String firstName;
 
     @Column(name = "last_name",length = 20)
     private String lastName;
@@ -23,26 +27,17 @@ public class User {
     @Column(name = "phone",length = 13)
     private String phone;
 
-    @Column(name = "created_ad",length = 8)
+    @Column(name = "created_at",length = 8)
     private String createdAt;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
-    private Address addressId;
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Loan> Loans = new ArrayList<>();
 
-
     public User() {}
-
-    public User(Long idUser, String lastName, String email, String phone, String createdAt) {
-        this.idUser = idUser;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.createdAt = createdAt;
-    }
 
     public Long getIdUser() {
         return idUser;
@@ -82,5 +77,23 @@ public class User {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getFirstName() {return firstName;}
+
+    public void setFirstName(String firstName) {this.firstName = firstName;}
+
+    public Address getAddress() {return address;}
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Loan> getLoans() {
+        return Loans;
+    }
+
+    public void setLoans(List<Loan> loans) {
+        Loans = loans;
     }
 }
