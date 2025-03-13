@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Address")
+@Table(name = "address")
 public class Address {
 
     public Address() {
@@ -18,7 +18,7 @@ public class Address {
     @Column(name = "address_id")
     private Long addressId;
 
-    @OneToOne(mappedBy = "addressId")
+    @OneToOne(mappedBy = "address")
     private User user;
 
     @Column(name = "country")
@@ -93,5 +93,13 @@ public class Address {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

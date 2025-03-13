@@ -25,26 +25,15 @@ public class Loan {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "loan_status_id")
-    private Long loanStatus;
+    @JoinColumn(name = "loan_status_id", referencedColumnName = "loan_status_id")
+    private LoanStatus loanStatus;
 
-    @Column(name = "status_reason")
+    @Column(name = "manager_update")
     private Long managerUpdate;
 
     @ManyToOne
-    @JoinColumn(name = "loan_type_id")
+    @JoinColumn(name = "loan_type_id", referencedColumnName = "loan_type_id")
     private LoanType loanType;
-
-    // public Loan(Long id, Long amountRequested, String loanType, String lastUpdate, String statusReason, Long userId, Long loanStatus, Long managerUpdate) {
-    //     this.id = id;
-    //     this.amountRequested = amountRequested;
-    //     this.loanType = loanType;
-    //     this.lastUpdate = lastUpdate;
-    //     this.statusReason = statusReason;
-    //     this.userId = userId;
-    //     this.loanStatus = loanStatus;
-    //     this.managerUpdate = managerUpdate;
-    // }
 
     public Loan(){}
 
@@ -96,11 +85,11 @@ public class Loan {
         this.user = user;
     }
 
-    public Long getLoanStatus() {
+    public LoanStatus getLoanStatus() {
         return loanStatus;
     }
 
-    public void setLoanStatus(Long loanStatus) {
+    public void setLoanStatus(LoanStatus loanStatus) {
         this.loanStatus = loanStatus;
     }
 
