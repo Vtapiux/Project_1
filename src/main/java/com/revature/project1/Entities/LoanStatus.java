@@ -5,24 +5,29 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Loan_Statuses")
-public class LoanStatuses {
+@Table(name = "Loan_Status")
+public class LoanStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "loan_statuses_id", nullable = false)
+    @Column(name = "loan_status_id", nullable = false)
     private Long id;
 
     @Column(name = "loan_status")
     private String loanStatus;
 
-    public LoanStatuses(){
+
+
+
+    public LoanStatus(){
 
     }
 
-    public LoanStatuses(Long id, String loanStatus){
+    public LoanStatus(Long id, String loanStatus){
         this.id = id;
         this.loanStatus = loanStatus;
     }

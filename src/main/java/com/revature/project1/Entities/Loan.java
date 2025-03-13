@@ -16,8 +16,7 @@ public class Loan {
     @Column(name = "amount_requested")
     private Long amountRequested;
 
-    @Column(name = "loan_type")
-    private String loanType;
+
 
     @Column(name = "loan_update")
     private String lastUpdate;
@@ -34,16 +33,20 @@ public class Loan {
     @Column(name = "status_reason")
     private Long managerUpdate;
 
-    public Loan(Long id, Long amountRequested, String loanType, String lastUpdate, String statusReason, Long userId, Long loanStatus, Long managerUpdate) {
-        this.id = id;
-        this.amountRequested = amountRequested;
-        this.loanType = loanType;
-        this.lastUpdate = lastUpdate;
-        this.statusReason = statusReason;
-        this.userId = userId;
-        this.loanStatus = loanStatus;
-        this.managerUpdate = managerUpdate;
-    }
+    @ManyToOne
+    @JoinColumn(name = "loan_type_id")
+    private LoanType loanType;
+
+    // public Loan(Long id, Long amountRequested, String loanType, String lastUpdate, String statusReason, Long userId, Long loanStatus, Long managerUpdate) {
+    //     this.id = id;
+    //     this.amountRequested = amountRequested;
+    //     this.loanType = loanType;
+    //     this.lastUpdate = lastUpdate;
+    //     this.statusReason = statusReason;
+    //     this.userId = userId;
+    //     this.loanStatus = loanStatus;
+    //     this.managerUpdate = managerUpdate;
+    // }
 
     public Loan(){}
 
@@ -63,11 +66,11 @@ public class Loan {
         this.amountRequested = amountRequested;
     }
 
-    public String getLoanType() {
+    public LoanType getLoanType() {
         return loanType;
     }
 
-    public void setLoanType(String loanType) {
+    public void setLoanType(LoanType loanType) {
         this.loanType = loanType;
     }
 
