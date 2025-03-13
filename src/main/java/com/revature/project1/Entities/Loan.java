@@ -19,17 +19,20 @@ public class Loan {
     @Column(name = "loan_type")
     private String loanType;
 
+
     @Column(name = "loan_update")
     private String lastUpdate;
 
     @Column(name = "status_reason")
     private String statusReason;
 
+    @Column
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "loan_statuses")
+    @ManyToOne
+    @JoinColumn(name = "loan_status_id")
     private Long loanStatus;
 
     @Column(name = "status_reason")
