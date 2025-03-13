@@ -7,19 +7,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "Loan_status")
-public class LoanStatuses {
+public class LoanStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "loan_status_id", nullable = false)
     private Long id;
 
     @Column(name = "loan_status")
-    @OneToMany(mappedBy = "loan_status", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "loan_status_id", cascade = CascadeType.ALL)
     private List<Loan> loanStatus = new ArrayList<>();
 
-    public LoanStatuses() {
-
-    }
+    public LoanStatus() {}
 
     public Long getId() {return id;}
 
