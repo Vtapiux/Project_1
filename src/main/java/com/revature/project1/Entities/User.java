@@ -37,6 +37,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Loan> Loans = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
     public User() {}
 
     public Long getIdUser() {
@@ -95,5 +99,13 @@ public class User {
 
     public void setLoans(List<Loan> loans) {
         Loans = loans;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

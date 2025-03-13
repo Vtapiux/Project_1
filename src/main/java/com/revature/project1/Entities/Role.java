@@ -1,14 +1,12 @@
 package com.revature.project1.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table (name = "Role")
+@Table (name = "roles")
 public class Role{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +16,10 @@ public class Role{
     @Column(name = "role_name")
     private String roleName;
 
-    public Role(){}
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<Account> accounts = new ArrayList<>();
 
-    public Role(Long id, String roleName){
-        this.id = id;
-        this.roleName = roleName;
-    }
+    public Role(){}
 
     public Long getId() {
         return id;
@@ -38,5 +34,12 @@ public class Role{
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-    
+
+    public List<Account> getRoles() {
+        return accounts;
+    }
+
+    public void setRoles(List<Account> accounts) {
+        this.accounts = accounts;
+    }
 }
