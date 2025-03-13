@@ -3,7 +3,7 @@ package com.revature.project1.Entities;
 import jakarta.persistence.*;
 
 @Entity
-
+@Table(name = "loans")
 public class Loan {
 
     @Id
@@ -14,7 +14,7 @@ public class Loan {
     @Column(name = "amount_requested")
     private Long amountRequested;
 
-    @Column(name = "loan_update")
+    @Column(name = "last_update")
     private String lastUpdate;
 
     @Column(name = "status_reason")
