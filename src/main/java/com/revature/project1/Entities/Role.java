@@ -41,7 +41,6 @@ public class Role{
     public List<Account> getRoles() {
         return accounts;
     }
-
     public void setRoles(List<Account> accounts) {
         this.accounts = accounts;
     }

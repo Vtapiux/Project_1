@@ -13,7 +13,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
-    private int account_id;
+    private Long account_id;
 
     @Column(name = "username")
     private String username;
@@ -31,11 +31,11 @@ public class Account {
 
     public Account() {}
 
-    public int getAccount_id() {
+    public Long getAccount_id() {
         return account_id;
     }
 
-    public void setAccount_id(int account_id) {
+    public void setAccount_id(Long account_id) {
         this.account_id = account_id;
     }
 
@@ -69,6 +69,10 @@ public class Account {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Long getRoleId(){
+        return role != null ? role.getId() : null;
     }
 
     @Override
