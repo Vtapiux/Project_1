@@ -71,6 +71,10 @@ public class Account {
         this.role = role;
     }
 
+    public Long getRoleId(){
+        return role != null ? role.getId() : null;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
