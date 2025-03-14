@@ -1,7 +1,12 @@
 package com.revature.project1.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "account_id")
 @Entity
 @Table(name = "accounts")
 public class Account {
@@ -16,12 +21,12 @@ public class Account {
     @Column(name = "password")
     private String password;
 
-    @OneToOne (mappedBy = "account")
-    private User user;
-
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToOne (cascade = CascadeType.ALL)
+    private User user;
 
     public Account() {}
 
@@ -63,5 +68,15 @@ public class Account {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "role=" + role +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", account_id=" + account_id +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.revature.project1.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
+//    @JsonBackReference
     private Account account;
 
     public User() {}
