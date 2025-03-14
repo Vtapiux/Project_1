@@ -22,10 +22,11 @@ public class Account {
     private String password;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToOne (cascade = CascadeType.ALL)
+    @OneToOne (mappedBy = "account", cascade = CascadeType.ALL)
     private User user;
 
     public Account() {}
