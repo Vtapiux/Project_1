@@ -1,10 +1,12 @@
 package com.revature.project1.Entities;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table (name = "roles")
 public class Role{
@@ -16,7 +18,8 @@ public class Role{
     @Column(name = "role_name")
     private String roleName;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> accounts = new ArrayList<>();
 
     public Role(){}
