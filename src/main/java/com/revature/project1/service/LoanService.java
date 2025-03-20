@@ -9,4 +9,6 @@ public interface LoanService {
     List<Loan> findAllLoan();
     Loan createLoan(Loan loan);
     Optional<Loan> updateLoan(Long id, Loan loan);
+    Optional<Loan> findLoanById(Long id);
+
 }

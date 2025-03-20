@@ -41,4 +41,9 @@ public class LoanServiceImpl implements LoanService{
         return loanRepository.save(exitistingLoan);
      });
     }
+
+    @Override
+    public Optional<Loan> findLoanById(Long id){
+        return loanRepository.findById(id);
+    }
 }

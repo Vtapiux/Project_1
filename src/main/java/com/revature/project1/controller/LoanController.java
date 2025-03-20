@@ -22,6 +22,11 @@ public class LoanController {
         return ResponseEntity.ok(loanService.findAllLoan());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Loan> getLoanById(@PathVariable Long id){
+        return loanService.findLoanById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<?> createLoan(@RequestBody Loan loan){
         Loan loanCreated = loanService.createLoan(loan);
