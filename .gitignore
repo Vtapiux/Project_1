@@ -5,6 +5,10 @@ target/
 !**/src/test/**/target/
 src/main/resources/application.properties
 src/main/resources/import.sql
+<<<<<<< HEAD
+
+=======
+>>>>>>> a9a15a439bbc4eef1925a77e5e2b5731249fdbee
 
 ### STS ###
 .apt_generated
