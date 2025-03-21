@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
-@RequestMapping("/loan-type")
+@RequestMapping("/loanType")
 public class LoanTypeController {
 
     
