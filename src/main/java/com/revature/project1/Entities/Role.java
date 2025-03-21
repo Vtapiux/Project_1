@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.util.*;
 
-@Setter
-@Getter
+//@Setter
+//@Getter
 @Entity
 @Table(name = "Roles")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "roleId")
@@ -29,5 +29,29 @@ public class Role {
     public Role(Long roleId, String roleName) {
         this.roleId = roleId;
         this.roleName = roleName;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public List<Account> getAccount() {
+        return account;
+    }
+
+    public void setAccount(List<Account> account) {
+        this.account = account;
     }
 }
