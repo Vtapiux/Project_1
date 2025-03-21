@@ -14,9 +14,7 @@ import jakarta.servlet.http.HttpSession;
 public class AccountController {
 
     private final AccountService accountService;
-
     public AccountController(AccountService accountService) {this.accountService = accountService;}
-
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> createAccount(@RequestBody Account account) {
         Account newAccount = accountService.createAccount(account);
@@ -44,8 +42,7 @@ public class AccountController {
             if (existingUser != null) {
                 if (BCrypt.verifyer().verify(account.getPassword().toCharArray(), existingUser.getPassword()).verified) {
                     HttpSession httpSession = servletRequest.getSession(true);
-                    httpSession.setAttribute("newAccount", account);
-                    httpSession.setAttribute("roleId", account.getRole().getRoleId());
+                    httpSession.setAttribute("newAccount", existingUser);
                     response.put("message: ", "Successful login!");
                     response.put("account: ", existingUser);
                 }
@@ -74,13 +71,5 @@ public class AccountController {
             response.put("error: ", "Invalid action (no session in progress)!");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    public Long getRoleId(HttpServletRequest servletRequest){
-        HttpSession session = servletRequest.getSession(false);
-        if (session != null && session.getAttribute("roleId") != null){
-            return(Long)session.getAttribute("roleId");
-        }
-        return null;
     }
 }
