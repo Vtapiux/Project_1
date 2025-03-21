@@ -33,6 +33,10 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user, HttpServletRequest httpServletRequest){
         if (httpServletRequest.getSession(false) != null){
+            int roleId = (int) httpServletRequest.getAttribute("roleId");
+            if(roleId == 2){
+                System.out.println(roleId);
+            }
             User userResponse = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
         }
