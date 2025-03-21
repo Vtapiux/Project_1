@@ -1,42 +1,41 @@
 package com.revature.project1.Entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "account_id")
 @Entity
-@Table(name = "accounts")
+@Table(name = "Accounts")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "accountId")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
-    private Long account_id;
-
-    @Column(name = "username")
+    private Long accountId;
+    @Column(name = "username", unique = true, nullable = false, length = 124)
     private String username;
-
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 512)
     private String password;
 
+    // Owner:
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToOne (mappedBy = "account", cascade = CascadeType.ALL)
+    // Mapper:
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private User user;
 
     public Account() {}
 
-    public Long getAccount_id() {
-        return account_id;
+    public Account(String username, Role role) {}
+
+    public Long getAccountId() {
+        return accountId;
     }
 
-    public void setAccount_id(Long account_id) {
-        this.account_id = account_id;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
     public String getUsername() {
@@ -55,14 +54,6 @@ public class Account {
         this.password = password;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -71,17 +62,22 @@ public class Account {
         this.role = role;
     }
 
-    public Long getRoleId(){
-        return role != null ? role.getId() : null;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "role=" + role +
-                ", password='" + password + '\'' +
+                "accountId=" + accountId +
                 ", username='" + username + '\'' +
-                ", account_id=" + account_id +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", user=" + user +
                 '}';
     }
 }
