@@ -10,14 +10,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/api/accounts/")
+@RequestMapping("/auth/accounts")
 public class AccountController {
 
     private final AccountService accountService;
-
     public AccountController(AccountService accountService) {this.accountService = accountService;}
-
-    @PostMapping("new_account/")
+    @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> createAccount(@RequestBody Account account) {
         Account newAccount = accountService.createAccount(account);
         Map<String, Object> response = new HashMap<>();
@@ -36,7 +34,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("login/")
+    @GetMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Account account, HttpServletRequest servletRequest) {
         Account existingUser = accountService.loginUser(account.getUsername(), account.getPassword());
         Map<String, Object> response = new HashMap<>();
@@ -62,7 +60,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("logout/")
+    @GetMapping("/logout")
     public ResponseEntity<HashMap<String, String>> logout(HttpServletRequest servletRequest) {
         HashMap<String, String> response = new HashMap<>();
         if (servletRequest.getSession(false) != null) {

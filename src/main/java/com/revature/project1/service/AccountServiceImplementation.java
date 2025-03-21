@@ -1,5 +1,6 @@
 package com.revature.project1.service;
 
+import com.revature.project1.Entities.Role.*;
 import com.revature.project1.Entities.Account;
 import com.revature.project1.repository.AccountRepository;
 import com.revature.project1.repository.RoleRepository;
