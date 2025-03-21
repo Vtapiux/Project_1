@@ -15,7 +15,7 @@ import com.revature.project1.service.LoanStatusService;
 
 
 @RestController
-@RequestMapping("/loan-status")
+@RequestMapping("/loanStatus")
 public class LoanStatusController {
 
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users/")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserServiceImpl userService;
@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("get_all/")
+    @GetMapping
     public ResponseEntity<Object> getUsers(HttpServletRequest httpServletRequest){
         if (httpServletRequest.getSession(false) != null){
             List<User> users = userService.getUsers();
@@ -30,7 +30,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("new_user/")
+    @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user, HttpServletRequest httpServletRequest){
         if (httpServletRequest.getSession(false) != null){
             User userResponse = userService.createUser(user);
