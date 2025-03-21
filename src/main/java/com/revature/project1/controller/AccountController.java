@@ -42,7 +42,7 @@ public class AccountController {
             if (existingUser != null) {
                 if (BCrypt.verifyer().verify(account.getPassword().toCharArray(), existingUser.getPassword()).verified) {
                     HttpSession httpSession = servletRequest.getSession(true);
-                    httpSession.setAttribute("newAccount", account);
+                    httpSession.setAttribute("newAccount", existingUser);
                     response.put("message: ", "Successful login!");
                     response.put("account: ", existingUser);
                 }
