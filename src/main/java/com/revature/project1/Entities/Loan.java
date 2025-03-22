@@ -1,7 +1,10 @@
 package com.revature.project1.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "loans")
 public class Loan {
@@ -20,6 +23,9 @@ public class Loan {
     @Column(name = "status_reason")
     private String statusReason;
 
+    @Column(name = "manager_update")
+    private String managerUpdate;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -28,8 +34,6 @@ public class Loan {
     @JoinColumn(name = "loan_status_id", referencedColumnName = "loan_status_id")
     private LoanStatus loanStatus;
 
-    @Column(name = "manager_update")
-    private Long managerUpdate;
 
     @ManyToOne
     @JoinColumn(name = "loan_type_id", referencedColumnName = "loan_type_id")
@@ -93,11 +97,11 @@ public class Loan {
         this.loanStatus = loanStatus;
     }
 
-    public Long getManagerUpdate() {
+    public String getManagerUpdate() {
         return managerUpdate;
     }
 
-    public void setManagerUpdate(Long managerUpdate) {
+    public void setManagerUpdate(String managerUpdate) {
         this.managerUpdate = managerUpdate;
     }
 }

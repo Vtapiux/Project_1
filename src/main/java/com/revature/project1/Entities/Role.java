@@ -1,47 +1,57 @@
 package com.revature.project1.Entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Setter
+@Getter
 @Entity
-@Table (name = "roles")
-public class Role{
+@Table(name = "Roles")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "roleId")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id", nullable = false)
-    private Long id;
-
-    @Column(name = "role_name")
+    @Column(name = "role_id")
+    private Long roleId;
+    @Column(name = "role_name", nullable = false, length = 124)
     private String roleName;
 
-    @JsonManagedReference
+    // MRs:
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accounts = new ArrayList<>();
+    @JsonIgnore
+    private List<Account> account = new ArrayList<>();
 
-    public Role(){}
+    public Role() {}
 
-    public Long getId() {
-        return id;
+    public Role(Long roleId, String roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
     }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
     public String getRoleName() {
         return roleName;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
-    public List<Account> getRoles() {
-        return accounts;
+    public List<Account> getAccount() {
+        return account;
     }
-    public void setRoles(List<Account> accounts) {
-        this.accounts = accounts;
+
+    public void setAccount(List<Account> account) {
+        this.account = account;
     }
 }
