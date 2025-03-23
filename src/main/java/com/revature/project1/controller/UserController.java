@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -26,7 +29,6 @@ public class UserController {
         if (httpServletRequest.getSession(false) != null){
             HttpSession httpSession = httpServletRequest.getSession(false);
             Account account = (Account) httpSession.getAttribute("newAccount");
-            System.out.println(account.toString());
             if (account.getRole().getRoleId() == 2) {
                 List<User> users = userService.getUsers();
                 return ResponseEntity.ok(users);
@@ -40,15 +42,122 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id , HttpServletRequest httpServletRequest){
+        if (httpServletRequest.getSession(false) != null) {
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            if (account.getRole().getRoleId() == 2) {
+                Optional<User> user = userService.getUserById(id);
+                if(user.isPresent()){
+                    return ResponseEntity.ok(user.orElseThrow());
+                }else{
+                    return ResponseEntity.ok("error: No user found!");
+                }
+            } else {
+                return ResponseEntity.ok("error: You have no permission to take this action!");
+
+            }
+        }else{
+            return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+        }
+    }
+
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user, HttpServletRequest httpServletRequest){
         if (httpServletRequest.getSession(false) != null){
-            User userResponse = userService.createUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            if (account.getRole().getRoleId() == 2) {
+                User userResponse = userService.createUser(user);
+                return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+            }else {
+                return ResponseEntity.ok("error: You have no permission to take this action!");
+            }
         }
         else{
             return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
         }
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateUserPartial(@PathVariable Long id, @RequestBody Map<String, Object> updates, HttpServletRequest request) {
+        if (request.getSession(false) != null) {
+            HttpSession session = request.getSession(false);
+            Account account = (Account) session.getAttribute("newAccount");
+            if (account.getRole().getRoleId() == 2) {
+                return ResponseEntity.ok(userService.updateUserPartial(id, updates));
+            } else {
+                return ResponseEntity.ok("error: You have no permission to take this action!");
+            }
+        } else {
+            return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+        }
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user, HttpServletRequest httpServletRequest) {
+        if (httpServletRequest.getSession(false) != null){
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            if (account.getRole().getRoleId() == 2) {
+                User updatedUser = userService.updateUser(id, user);
+                return ResponseEntity.ok(updatedUser);
+            }
+            else {
+                return ResponseEntity.ok("error: You have no permission to take this action!");
+            }
+        }
+        else{
+            return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+        }
+    }
+
+    @PutMapping()
+    public ResponseEntity<?> updateMyUser(@RequestBody User user, HttpServletRequest httpServletRequest){
+        if (httpServletRequest.getSession(false) != null){
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            User userFromDB = userService.findByAccountId(account.getAccountId());
+            if (userFromDB==null ){
+                return ResponseEntity.ok("error: User not found !");
+            }
+            if (!Objects.equals(userFromDB.getIdUser(),user.getIdUser())){
+                return ResponseEntity.ok("error: You cannot update another user !");
+            }
+            userFromDB.setPhone(user.getPhone());
+            userFromDB.setFirstName(user.getFirstName());
+            userFromDB.setLastName(user.getLastName());
+            userFromDB.setEmail(user.getEmail());
+            userFromDB.setCreatedAt(user.getCreatedAt());
+            User updatedUser = userService.updateUser(userFromDB.getIdUser(),userFromDB);
+            return ResponseEntity.ok(updatedUser);
+
+        }
+        else{
+            return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+        }
+    }
+
+    @GetMapping("myInfo")
+    public ResponseEntity<?> getMyUserInfo(HttpServletRequest httpServletRequest){
+        if (httpServletRequest.getSession(false) != null){
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            User userFromDB = userService.findByAccountId(account.getAccountId());
+            if (userFromDB==null ){
+                return ResponseEntity.ok("error: User not found !");
+            }
+            Optional<User> updatedUser = userService.getMyUserInfo(userFromDB.getIdUser());
+            return ResponseEntity.ok(updatedUser);
+
+        }
+        else{
+            return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+        }
+    }
+
+
 }
