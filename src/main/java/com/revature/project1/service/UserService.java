@@ -12,5 +12,4 @@ public interface UserService {
     Optional<User> getUserById();
     User updateUser();
 
-
 }
