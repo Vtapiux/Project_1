@@ -31,7 +31,7 @@ public class User {
     @Column(name = "phone",length = 13)
     private String phone;
 
-    @Column(name = "created_at",length = 8)
+    @Column(name = "created_at",length = 10)
     private String createdAt;
 
     @OneToOne(cascade = CascadeType.ALL)
