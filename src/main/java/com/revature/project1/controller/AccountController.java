@@ -34,31 +34,32 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Account account, HttpServletRequest servletRequest) {
-        Account existingUser = accountService.loginUser(account.getUsername(), account.getPassword());
         Map<String, Object> response = new HashMap<>();
-        if (servletRequest.getSession(false) == null) {
-            if (existingUser != null) {
-                if (BCrypt.verifyer().verify(account.getPassword().toCharArray(), existingUser.getPassword()).verified) {
-                    HttpSession httpSession = servletRequest.getSession(true);
-                    httpSession.setAttribute("newAccount", existingUser);
-                    response.put("message: ", "Successful login!");
-                    response.put("account: ", existingUser);
-                }
-                else {
-                    response.put("error: ", "Invalid credentials!");
-                }
+
+        Account existingUser = accountService.loginUser(account.getUsername(), account.getPassword());
+
+        if (existingUser != null &&
+                BCrypt.verifyer().verify(account.getPassword().toCharArray(), existingUser.getPassword()).verified) {
+
+            HttpSession oldSession = servletRequest.getSession(false);
+            if (oldSession != null) {
+                oldSession.invalidate();
             }
-            else {
-                response.put("error: ", "Invalid credentials!");
-            }
+
+            HttpSession newSession = servletRequest.getSession(true);
+            newSession.setAttribute("newAccount", existingUser);
+
+            response.put("message: ", "Successful login!");
+            response.put("account: ", existingUser);
+        } else {
+            response.put("error: ", "Invalid credentials!");
         }
-        else {
-            response.put("error: ", "Invalid action (a session is in progress)!");
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/logout")
     public ResponseEntity<HashMap<String, String>> logout(HttpServletRequest servletRequest) {
