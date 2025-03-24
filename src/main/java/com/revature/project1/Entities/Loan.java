@@ -34,7 +34,6 @@ public class Loan {
     @JoinColumn(name = "loan_status_id", referencedColumnName = "loan_status_id")
     private LoanStatus loanStatus;
 
-
     @ManyToOne
     @JoinColumn(name = "loan_type_id", referencedColumnName = "loan_type_id")
     private LoanType loanType;

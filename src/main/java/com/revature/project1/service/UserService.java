@@ -16,5 +16,4 @@ public interface UserService {
     User updateUserPartial(Long id, Map<String, Object> updates);
 
 
-
 }

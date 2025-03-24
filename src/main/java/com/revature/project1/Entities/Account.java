@@ -18,7 +18,7 @@ public class Account {
 
     // Owner:
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private Role role;
 
     // Mapper:

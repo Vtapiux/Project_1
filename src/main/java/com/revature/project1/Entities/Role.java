@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.util.*;
 
-@Setter
-@Getter
+//@Setter
+//@Getter
 @Entity
 @Table(name = "Roles")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "roleId")
