@@ -67,4 +67,20 @@ public class accountServiceImplTest {
         verify(accountRepository, times(1)).save(newAccount);
 
     }
+
+    @Test
+    public void testLoginUser_successfulLogin() {
+        String username = "TEST";
+        String password = "TEST";
+
+        when(accountRepository.findByUsername("TEST")).thenReturn(testAccount);
+
+
+        Account result = accountServiceImplementation.loginUser(username, password);
+
+        assertNotNull(result);
+        assertEquals("TEST", result.getUsername());
+        verify(accountRepository, times(1)).findByUsername(username);
+        verifyNoInteractions(roleRepository);
+    }
 }
