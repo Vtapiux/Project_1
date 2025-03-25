@@ -34,6 +34,18 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @GetMapping("/sessionInfo")
+    public ResponseEntity<?> getSessionAccount(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Account account = (Account) session.getAttribute("newAccount");
+            if (account != null) {
+                return ResponseEntity.ok(account);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No session in progress");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Account account, HttpServletRequest servletRequest) {
         Map<String, Object> response = new HashMap<>();
