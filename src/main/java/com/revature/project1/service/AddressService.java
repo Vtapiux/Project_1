@@ -8,5 +8,6 @@ public interface AddressService {
     List<Address> findAllAddress();
     Address createAddress(Address address);
     Optional<Address> findAddressById(Long id);
-    Optional<Address> updateAddress(Long id, Address addressDetails);
+    Address updateAddress(Long id, Address addressDetails);
+    Optional<Address> getMyAddress(Long idUser);
 }

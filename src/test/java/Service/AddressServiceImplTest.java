@@ -128,11 +128,11 @@ public class AddressServiceImplTest {
         when(addressRepository.findById(addressId)).thenReturn(Optional.of(existingAddress));
         when(addressRepository.save(any(Address.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Optional<Address> result = addressService.updateAddress(addressId, updateData);
-
-        assertTrue(result.isPresent(), "Debería retornar un Address actualizado");
+        Address result = addressService.updateAddress(addressId, updateData);
+        assertNotNull(result, "Debería retornar un Address actualizado");
+        //assertTrue(result.isPresent(), "Debería retornar un Address actualizado");
         
-        Address updatedAddress = result.get();
+        Address updatedAddress = result;
         
         assertEquals("Mexico", updatedAddress.getCountry());
         assertEquals("CDMX", updatedAddress.getState());

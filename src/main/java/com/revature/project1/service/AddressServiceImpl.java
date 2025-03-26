@@ -1,5 +1,6 @@
 package com.revature.project1.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import com.revature.project1.Entities.Address;
 import com.revature.project1.repository.AddressRepository;
@@ -30,15 +31,20 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public Optional<Address> updateAddress(Long id, Address addressDetails){
-        return addressRepository.findById(id).map(existingAddress -> {
-            existingAddress.setCountry(addressDetails.getCountry());
-            existingAddress.setState(addressDetails.getState());
-            existingAddress.setCity(addressDetails.getCity());
-            existingAddress.setStreet(addressDetails.getStreet());
-            existingAddress.setStreetNum(addressDetails.getStreetNum());
-            existingAddress.setZip(addressDetails.getZip());
-            return addressRepository.save(existingAddress);
-        });
+    public Address updateAddress(Long id, Address addressDetails){
+        Address existingAddress = addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
+        existingAddress.setCountry(addressDetails.getCountry());
+        existingAddress.setState(addressDetails.getState());
+        existingAddress.setCity(addressDetails.getCity());
+        existingAddress.setStreet(addressDetails.getStreet());
+        existingAddress.setStreetNum(addressDetails.getStreetNum());
+        existingAddress.setZip(addressDetails.getZip());
+        return addressRepository.save(existingAddress);
+    }
+
+    @Override
+    public Optional<Address> getMyAddress(Long id){
+        return addressRepository.findById(id);
     }
 }
