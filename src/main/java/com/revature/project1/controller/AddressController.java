@@ -151,7 +151,7 @@ public class AddressController {
         }
     }
 
-    @PutMapping()
+    @PutMapping("/myAddress")
     public ResponseEntity<?> updateMyAddress(@RequestBody Address address, HttpServletRequest httpServletRequest){
         if (httpServletRequest.getSession(false) != null){
             HttpSession httpSession = httpServletRequest.getSession(false);
