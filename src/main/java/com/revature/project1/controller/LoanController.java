@@ -6,6 +6,7 @@ import com.revature.project1.Entities.User;
 import com.revature.project1.repository.UserRepository;
 import com.revature.project1.service.LoanService;
 import com.revature.project1.service.UserService;
+import com.revature.project1.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class LoanController {
     private final LoanService loanService;
     private final UserRepository userRepository;
+    private final UserServiceImpl userService;
 
-    public LoanController(LoanService loanService, UserRepository userRepository) {
+    public LoanController(LoanService loanService, UserRepository userRepository,UserServiceImpl userService) {
         this.loanService = loanService;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -37,16 +40,23 @@ public class LoanController {
         return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
     }
 
-    @GetMapping("/user_{id}")
-    public ResponseEntity<?> getLoansByUserId(@PathVariable Long id,HttpServletRequest httpServletRequest){
+    @GetMapping("/user")
+    public ResponseEntity<?> getLoansByUserId(HttpServletRequest httpServletRequest){
+
+
         if (httpServletRequest.getSession(false) != null){
             HttpSession httpSession = httpServletRequest.getSession(false);
             Account account = (Account) httpSession.getAttribute("newAccount");
-            if (account.getRole().getRoleId() == 1 || account.getUser().getIdUser() == id){
-                return ResponseEntity.ok(loanService.findLoanByUserId(id));
-            } else {
-                return ResponseEntity.ok("error: You have no permission to take this action!");
+            User userFromDB = userService.findByAccountId(account.getAccountId());
+            if (userFromDB==null ){
+                return ResponseEntity.ok("error: User not found !");
             }
+
+            //if (account.getUser().getIdUser() == id){
+                return ResponseEntity.ok(loanService.findLoanByUserId(userFromDB.getIdUser()));
+            //} else {
+             //   return ResponseEntity.ok("error: You have no permission to take this action!");
+            //}
         }
         return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
     }
