@@ -35,7 +35,6 @@ public class LoanServiceImpl implements LoanService{
         exitistingLoan.setLastUpdate(loanDetails.getLastUpdate());
         exitistingLoan.setStatusReason(loanDetails.getStatusReason());
         exitistingLoan.setManagerUpdate(loanDetails.getManagerUpdate());
-        exitistingLoan.setUser(loanDetails.getUser());
         exitistingLoan.setLoanStatus(loanDetails.getLoanStatus());
         exitistingLoan.setLoanType(loanDetails.getLoanType());
         return loanRepository.save(exitistingLoan);
