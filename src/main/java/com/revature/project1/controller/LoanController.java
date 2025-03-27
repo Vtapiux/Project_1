@@ -116,7 +116,7 @@ public class LoanController {
                         .map(ResponseEntity::ok)
                         .orElse(ResponseEntity.notFound().build());
             } else {
-                return ResponseEntity.ok("error: As a manager you can only update a loan!");
+                return ResponseEntity.ok("error: As a user you can only create a loan!");
             }
         } else{
             return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
