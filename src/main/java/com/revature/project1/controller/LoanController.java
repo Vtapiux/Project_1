@@ -86,25 +86,26 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createLoan(@RequestBody Loan loan, HttpServletRequest httpServletRequest){
-        if(httpServletRequest.getSession(false) != null){
-            HttpSession httpSession = httpServletRequest.getSession(false);
-            Account account = (Account) httpSession.getAttribute("newAccount");
-            if(account.getRole().getRoleId() == 1){ //Only customer can create loans
-                if(userRepository.findByAccount_accountId(account.getAccountId()) != null){
-                    Loan loanCreated = loanService.createLoan(loan);
-                    return ResponseEntity.status(HttpStatus.CREATED).body(loanCreated);
-                } else {
-                    return ResponseEntity.ok("error: User does not exists");
-                }
-            } else {
-                return ResponseEntity.ok("error: You have no permission to take this action!");
-            }
-        } else{
+    public ResponseEntity<?> createLoan(@RequestBody Loan loan, HttpServletRequest httpServletRequest) {
+        HttpSession httpSession = httpServletRequest.getSession(false);
+        if (httpSession == null) {
             return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
         }
+        Account account = (Account) httpSession.getAttribute("newAccount");
+        if (account == null) {
+            return ResponseEntity.ok("error: No account found in session!");
+        }
+        if (account.getRole().getRoleId() != 1) {
+            return ResponseEntity.ok("error: You have no permission to take this action!");
+        }
+        User user = userRepository.findByAccount_accountId(account.getAccountId());
+        if (user == null) {
+            return ResponseEntity.ok("error: User does not exist!");
+        }
+        loan.setUser(user);
+        Loan loanCreated = loanService.createLoan(loan);
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanCreated);
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateLoan(@PathVariable Long id, @RequestBody Loan loanDetails, HttpServletRequest httpServletRequest){
         if(httpServletRequest.getSession(false)!= null){
