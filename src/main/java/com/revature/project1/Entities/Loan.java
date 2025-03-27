@@ -2,6 +2,7 @@ package com.revature.project1.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -37,11 +38,11 @@ public class Loan {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "loan_status_id", referencedColumnName = "loan_status_id")
+    @JoinColumn(name = "loan_status_id", referencedColumnName = "loan_status_id")@JsonIdentityReference(alwaysAsId = true)
     private LoanStatus loanStatus;
 
     @ManyToOne
-    @JoinColumn(name = "loan_type_id", referencedColumnName = "loan_type_id")
+    @JoinColumn(name = "loan_type_id", referencedColumnName = "loan_type_id")@JsonIdentityReference(alwaysAsId = true)
     private LoanType loanType;
 
     public Loan(){}
