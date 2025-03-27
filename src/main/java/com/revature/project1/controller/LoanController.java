@@ -37,6 +37,20 @@ public class LoanController {
         return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
     }
 
+    @GetMapping("/user_{id}")
+    public ResponseEntity<?> getLoansByUserId(@PathVariable Long id,HttpServletRequest httpServletRequest){
+        if (httpServletRequest.getSession(false) != null){
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            if (account.getRole().getRoleId() == 1 || account.getUser().getIdUser() == id){
+                return ResponseEntity.ok(loanService.findLoanByUserId(id));
+            } else {
+                return ResponseEntity.ok("error: You have no permission to take this action!");
+            }
+        }
+        return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getLoanById(@PathVariable Long id, HttpServletRequest httpServletRequest){
         if(httpServletRequest.getSession(false) != null){
