@@ -48,8 +48,8 @@ public class LoanServiceImpl implements LoanService{
     }
 
     @Override
-    public Optional<Loan> findLoanByUserId(Long id){
-        return loanRepository.findById(id);
+    public List<Loan> findLoanByUserId(Long id){
+        return loanRepository.findByUser_idUser(id);
     }
 
 }
