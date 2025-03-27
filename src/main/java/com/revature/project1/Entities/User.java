@@ -2,6 +2,7 @@ package com.revature.project1.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -38,7 +39,7 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)@JsonIgnore
     private List<Loan> Loans = new ArrayList<>();
 
     @OneToOne
