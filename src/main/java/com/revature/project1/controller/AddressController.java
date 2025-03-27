@@ -59,7 +59,7 @@ public class AddressController {
                             .orElse(ResponseEntity.notFound().build());
                 }
             }
-            User userVer = (User) userRepository.findByAccount_accountId(account.getAccountId());
+            User userVer = userRepository.findByAccount_accountId(account.getAccountId());
             if(userVer == null){
                 //Validate if a user hasn't been created by this account
                 return ResponseEntity.ok("error: User not found !");
@@ -112,11 +112,10 @@ public class AddressController {
             Account account = (Account) httpSession.getAttribute("newAccount");
             if(account.getRole().getRoleId() == 2) {
                 //Is a manager, can update any address
-                return addressService.updateAddress(id, addressDetails)
-                        .map(ResponseEntity::ok)
-                        .orElse(ResponseEntity.notFound().build());
+                Address addressUpdated = addressService.updateAddress(id, addressDetails);
+                return ResponseEntity.ok(addressUpdated);
             }
-            User userVer = (User) userRepository.findByAccount_accountId(account.getAccountId());
+            User userVer = userRepository.findByAccount_accountId(account.getAccountId());
             if(userVer == null){
                 //Validate if a user hasn't been created by this account
                 return ResponseEntity.ok("error: User not found !");
@@ -125,13 +124,58 @@ public class AddressController {
                 return ResponseEntity.ok("error: This user does not own an Address");
             } else if(userVer.getAddress().getAddressId() == addressService.findAddressById(id).map(Address::getAddressId).orElse(null)){
                 //Validate if this user is updating it's own address
-                return addressService.updateAddress(id, addressDetails)
-                        .map(ResponseEntity::ok)
-                        .orElse(ResponseEntity.notFound().build());
+                Address addressUpdated = addressService.updateAddress(id, addressDetails);
+                return ResponseEntity.ok(addressUpdated);
             } else {
                 return ResponseEntity.ok("error: This user does not own this Address");
             }
         }else{
+            return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+        }
+    }
+
+    @GetMapping("/myAddress")
+    public ResponseEntity<?> getMyAddress(HttpServletRequest httpServletRequest){
+        if (httpServletRequest.getSession(false) != null){
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            User userFromDB = userRepository.findByAccount_accountId(account.getAccountId());
+            if (userFromDB.getAddress()==null ){
+                return ResponseEntity.ok("error: Address not found !");
+            }
+            Optional<Address> updatedAddress = addressService.getMyAddress(userFromDB.getAddress().getAddressId());
+            return ResponseEntity.ok(updatedAddress);
+        }
+        else{
+            return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
+        }
+    }
+
+    @PutMapping("/myAddress")
+    public ResponseEntity<?> updateMyAddress(@RequestBody Address address, HttpServletRequest httpServletRequest){
+        if (httpServletRequest.getSession(false) != null){
+            HttpSession httpSession = httpServletRequest.getSession(false);
+            Account account = (Account) httpSession.getAttribute("newAccount");
+            User userFromDB = userRepository.findByAccount_accountId(account.getAccountId());
+            Address addressFromDB = userFromDB.getAddress();
+
+            if (addressFromDB==null ){
+                return ResponseEntity.ok("error: Address not found !");
+            }
+            if (!Objects.equals(addressFromDB.getAddressId(),address.getAddressId())){
+                return ResponseEntity.ok("error: You cannot update another address !");
+            }
+            addressFromDB.setCountry(address.getCountry());
+            addressFromDB.setState(address.getState());
+            addressFromDB.setCity(address.getCity());
+            addressFromDB.setStreet(address.getStreet());
+            addressFromDB.setStreetNum(address.getStreetNum());
+            addressFromDB.setZip(address.getZip());
+
+            Address updatedAddress = addressService.updateAddress(addressFromDB.getAddressId(),addressFromDB);
+            return ResponseEntity.ok(updatedAddress);
+        }
+        else{
             return ResponseEntity.ok("error: Invalid action (no session is in progress)!");
         }
     }
