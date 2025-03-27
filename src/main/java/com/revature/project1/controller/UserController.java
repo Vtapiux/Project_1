@@ -134,7 +134,7 @@ public class UserController {
         }
     }
 
-    @PutMapping()
+    @PutMapping("/myuser")
     public ResponseEntity<?> updateMyUser(@RequestBody User user, HttpServletRequest httpServletRequest){
         if (httpServletRequest.getSession(false) != null){
             HttpSession httpSession = httpServletRequest.getSession(false);
@@ -143,9 +143,7 @@ public class UserController {
             if (userFromDB==null ){
                 return ResponseEntity.ok("error: User not found !");
             }
-            if (!Objects.equals(userFromDB.getIdUser(),user.getIdUser())){
-                return ResponseEntity.ok("error: You cannot update another user !");
-            }
+            
             userFromDB.setPhone(user.getPhone());
             userFromDB.setFirstName(user.getFirstName());
             userFromDB.setLastName(user.getLastName());
