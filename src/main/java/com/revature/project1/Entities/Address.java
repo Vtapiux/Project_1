@@ -1,5 +1,6 @@
 package com.revature.project1.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -18,6 +19,7 @@ public class Address {
     private Long addressId;
 
     @OneToOne(mappedBy = "address")
+    @JsonBackReference
     private User user;
 
     @Column(name = "country")

@@ -156,9 +156,11 @@ public class AddressController {
         if (httpServletRequest.getSession(false) != null){
             HttpSession httpSession = httpServletRequest.getSession(false);
             Account account = (Account) httpSession.getAttribute("newAccount");
-            Address addressFromDB = userRepository.findByAccount_accountId(account.getAccountId()).getAddress();
+            User userFromDB = userRepository.findByAccount_accountId(account.getAccountId());
+            Address addressFromDB = userFromDB.getAddress();
+
             if (addressFromDB==null ){
-                return ResponseEntity.ok("error: User not found !");
+                return ResponseEntity.ok("error: Address not found !");
             }
             if (!Objects.equals(addressFromDB.getAddressId(),address.getAddressId())){
                 return ResponseEntity.ok("error: You cannot update another address !");
